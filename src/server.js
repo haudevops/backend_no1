@@ -15,7 +15,6 @@
 
 
 const express = require('express')
-const path = require('path')
 const process = require('process')
 const app = express()
 require('dotenv').config()
@@ -23,17 +22,12 @@ require('dotenv').config()
 const port = process.env.PORT
 const hostName = process.env.HOST_NAME
 
-//Config template engine
-app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'ejs')
+const configViewEngine = require('./config/viewEngine')
+const routerWeb = require('./routes/routeWeb')
 
-app.get('/', function (req, res) {
-  res.render('samplefile.ejs')
-})
+//Config router
+app.use('/', routerWeb) //Đường link giống như version của API v1, v2
 
-app.get('/abc', function (req, res) {
-  res.render('pageTow.ejs')
-})
 
 app.listen(port, hostName, () => {
   console.log(`Example App listening on host ${hostName} port ${port}`)
